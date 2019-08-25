@@ -1,0 +1,31 @@
+.gridItem {
+      
+    background: rgb(238, 238, 238);
+    
+
+    mat-grid-tile-header {
+        background: transparent;
+        color: purple !important;
+
+        font-weight: bold;
+        font-size: 1.2rem;
+
+        span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    mat-grid-tile-footer {
+        //background: rgba(0,0,0,.1);
+        span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    p {
+        padding: 0 16px;
+    }
+   
+  } 

@@ -1,0 +1,10 @@
+<mat-grid-list *ngIf="categories$ | async as categories" cols="4" rowHeight="2:1" gutterSize="8px" >
+  <mat-grid-tile [routerLink]="['/products']" [queryParams]="{cat: category.name}" routerLinkActive="router-link-active"  *ngFor="let category of categories.data" class="gridItem">
+    <mat-grid-tile-header title="{{ category.name }}"><span>{{ category.name }}</span></mat-grid-tile-header>
+    <p ></p>
+    <mat-grid-tile-footer> 
+      <span class="description">{{ category.description }}</span>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+  
+</mat-grid-list>
