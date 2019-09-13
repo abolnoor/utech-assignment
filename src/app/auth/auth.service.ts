@@ -49,8 +49,9 @@ export class AuthService {
     return this.login('anonymous@utechmena.com', 'secret');
   }
 
-  logout(): void {
+  logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    return new Observable();
   }
 }

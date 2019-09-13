@@ -38,7 +38,7 @@ export class JwtService implements HttpInterceptor {
               return next.handle(this.addTokenToRequest(req, user.token));
             }
 
-            return this.authService.logout() as any;
+            return this.authService.logout() as Observable<HttpEvent<any>> ;
           })
         );
 
