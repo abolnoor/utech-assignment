@@ -71,8 +71,8 @@ export class ManageCategoriesComponent implements AfterViewInit {
   };
   searchChange = new Subject();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private categoriesService: CategoriesService, public dialog: MatDialog) { }
 

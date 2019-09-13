@@ -81,8 +81,8 @@ export class ManageProductsComponent implements AfterViewInit {
   };
   searchChange = new Subject();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private productsService: ProductsService, private productService: ProductService, public dialog: MatDialog) { }
 
