@@ -1,0 +1,62 @@
+<h2 mat-dialog-title style="width: 800px"> {{dialogData.row ? dialogData.row.name : 'New Product'}} </h2>
+<mat-dialog-content class="mat-typography">
+  <form  [formGroup]="productForm">
+    <div class="product-dialog-container">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput  placeholder="Product's Name" formControlName="name">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput  placeholder="Product's Description" formControlName="description">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Color</mat-label>
+        <input matInput [(colorPicker)]="productForm.value.color" [cpPosition]="'bottom'" (colorPickerSelect)="changeColor($event)" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]= "'mat-button'" [cpOKButtonClass]= "'mat-button'"  [style.background]="productForm.get('color').value"  placeholder="Product's Color" formControlName="color">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Weight</mat-label>
+        <input matInput  placeholder="Product's Weight" formControlName="weight">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Code</mat-label>
+        <input matInput  placeholder="Product's Code" formControlName="code">
+      </mat-form-field>
+  
+      
+      <div>
+        <button mat-stroked-button color="primary" (click)="productImage.click()">
+         <mat-icon>upload</mat-icon> Upload Image
+        </button>
+        <label for="productImage">Image</label>
+        <input hidden type="file" #productImage (change)="productForm.patchValue({image: $event.target.files[0]})" placeholder="Product's Image" >
+
+      </div>
+  
+    
+
+      <mat-form-field *ngIf="dialogData.cats | async as categoryList" >
+          <mat-label>Categories</mat-label>
+          <mat-select [formControlName]="'categories'" multiple>
+            <mat-option *ngFor="let category of categoryList.data" [value]="category.id">{{category.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+    </div>
+   
+  
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="productForm" cdkFocusInitial [disabled]="!productForm.valid" >Save</button>
+</mat-dialog-actions>
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

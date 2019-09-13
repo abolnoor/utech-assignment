@@ -1,0 +1,173 @@
+<div class="admin-products-container container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      Error in calling api
+    </div>
+  </div>
+
+  <div class="table-container">
+
+    <table mat-table [dataSource]="dataSource" class="table" matSort matSortActive="updated_at" matSortDisableClear
+      matSortDirection="desc">
+
+      <!-- <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef > 
+                  <div style="padding-top: 8px" mat-sort-header>{{column}}</div> 
+                  <mat-form-field class="example-form-field" [floatLabel]="'never'">
+                      <input matInput [type]="cols[column].filterType ? cols[column].filterType : 'text'" placeholder="Filter by {{column}}" [(ngModel)]="search[column]" (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+                      <button mat-button *ngIf="search[column]" matSuffix mat-icon-button aria-label="Clear" (click)="search[column]=''; onSearchChange($event)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+
+                 </th>
+                <td mat-cell *matCellDef="let element" [innerHTML]= "cols[column].display ? cols[column].display(element) : element[column]">  </td>
+              </ng-container> -->
+
+
+      <!-- name -->
+      <ng-container matColumnDef="name" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Name</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [type]="'text'" placeholder="Filter by name" [(ngModel)]="search['name']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+            <button mat-button *ngIf="search['name']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['name']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+
+      <!-- description -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Description</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [type]="'text'" placeholder="Filter by description" [(ngModel)]="search['description']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+            <button mat-button *ngIf="search['description']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['description']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+      </ng-container>
+
+      <!-- color -->
+      <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Color</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [(colorPicker)]="search['color']" (colorPickerSelect)="onSearchChange($event)" [cpOutputFormat]="'hex'" [cpAlphaChannel]="'disabled'" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]= "'mat-button'" [cpOKButtonClass]= "'mat-button'" [style.background]="search['color']" placeholder="Filter by color" [(ngModel)]="search['color']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+              
+
+            <button mat-button *ngIf="search['color']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['color']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon [style.color]="row.color" class="circleColor" [title]="row.color">lens</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- weight -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Weight</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [type]="'number'" placeholder="Filter by weight" [(ngModel)]="search['weight']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+            <button mat-button *ngIf="search['weight']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['weight']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.weight}}</td>
+      </ng-container>
+
+      <!-- code -->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Code</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [type]="'text'" placeholder="Filter by code" [(ngModel)]="search['code']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+            <button mat-button *ngIf="search['code']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['code']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.code}}</td>
+      </ng-container>
+
+      <!-- status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="padding-top: 8px" mat-sort-header>Status</div>
+          <mat-form-field class="form-field" [floatLabel]="'never'">
+            <input matInput [type]="'text'" placeholder="Filter by status" [(ngModel)]="search['status']"
+              (ngModelChange)="onSearchChange($event)" [ngModelOptions]="{updateOn: 'blur'}">
+            <button mat-button *ngIf="search['status']" matSuffix mat-icon-button aria-label="Clear"
+              (click)="search['status']=''; onSearchChange($event)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.status}}</td>
+      </ng-container>
+
+      <!-- created_at -->
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Created at
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.created_at | date}}</td>
+      </ng-container>
+
+      <!-- updated_at -->
+      <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+         Updated at
+        </th>
+        <td mat-cell *matCellDef="let row">{{row.updated_at | date }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="_actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef style="min-width: 80px;"></th>
+        <td mat-cell *matCellDef="let row">
+          <div *ngIf="row.status != 'deleted'">
+              <button mat-icon-button color="primary" aria-label="edit" (click)="openProductDialog(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+      
+                <button mat-icon-button color="warn" aria-label="delete" (click)="deleteProduct(row)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons>
+  </mat-paginator>
+</div>
+
+<button mat-fab class="fixed-fab" (click)="openProductDialog()">
+  <mat-icon>add</mat-icon>
+</button>

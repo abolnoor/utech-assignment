@@ -2,25 +2,35 @@
 	<mat-toolbar color="primary">
 		<mat-toolbar-row>
 <mat-icon aria-label="heart icon">favorite</mat-icon>
-			<a href="#" class="logo">
+			<a href="#" routerLink="/" class="logo">
 				
 				{{ appTitle }}
 			</a>
 
 			<span class="spacer"></span>
     <nav>
-      <ul>
-       
-        <li>
-            <a href="#" routerLink="/products">Products</a>
-        </li>
-        <li>
-          <a href="#" routerLink="/categories">Categories</a>
-      </li>
-      <li>
-        <a href="#" routerLink="/login">Login</a>
-    </li>
-      </ul>           
+        <a mat-button href="#"  routerLink="/">Home</a>
+        <a mat-button href="#"  routerLink="/products">Products</a>
+        <a mat-button href="#" routerLink="/categories">Categories</a>
+
+        <a *ngIf="!currentUser.currentUserValue || !currentUser.currentUserValue.user" mat-button href="#" routerLink="/login">Login</a>
+
+        <span *ngIf="currentUser.currentUserValue && currentUser.currentUserValue.user" >Welcome: {{currentUser.currentUserValue.user.first_name}}</span>
+        <button *ngIf="currentUser.currentUserValue && currentUser.currentUserValue.user" mat-icon-button [matMenuTriggerFor]="menu" aria-label="admin menu">
+            <mat-icon>settings_applications</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item href="/admin" routerLink="/admin">
+              <mat-icon>dashboard</mat-icon>
+              <span>Dashboard</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+
+             
     </nav>
    
   </mat-toolbar-row>

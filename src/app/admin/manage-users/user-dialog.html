@@ -1,0 +1,51 @@
+<h2 mat-dialog-title style="width: 800px"> {{dialogData.row ? dialogData.row.name : 'New User'}} </h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="userForm">
+    <div class="user-dialog-container">
+
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="User's First Name" formControlName="first_name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="User's Last Name" formControlName="last_name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput id="email" name="email" autocomplete="off" placeholder="User's Email" formControlName="email">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Mobile Number</mat-label>
+        <input matInput [type]="'tel'" placeholder="User's Mobile Number" formControlName="mobile_number">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="'password'" id="password" name="password" autocomplete="off" placeholder="User's Password" formControlName="password">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="dialogData.roles | async as roleList">
+        <mat-label>Roles</mat-label>
+        <mat-select [formControlName]="'roles'" multiple>
+          <mat-option *ngFor="let role of roleList.data" [value]="role.id">{{role.display_name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="userForm" cdkFocusInitial [disabled]="!userForm.valid">Save</button>
+</mat-dialog-actions>
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

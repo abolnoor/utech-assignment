@@ -1,13 +1,18 @@
-<!-- <div *ngIf="categories" class="">
-  <a mat-stroked-button *ngFor="let category of categories" [routerLink]="['/products']"  [queryParams]="{cat: category.id}" color="primary">Link</a>
-</div> -->
-<mat-grid-list *ngIf="products$ | async as products" cols="4" rowHeight="2:1" gutterSize="8px" >
-  <mat-grid-tile [routerLink]="['/product', product.id]" routerLinkActive="router-link-active"  *ngFor="let product of products.data" class="gridItem">
-    <mat-grid-tile-header title="{{ product.name }}"><span>{{ product.name }}</span></mat-grid-tile-header>
-    <p ></p>
-    <mat-grid-tile-footer> 
-      <span class="description">{{ product.description }}</span>
-    </mat-grid-tile-footer>
-  </mat-grid-tile>
-  
-</mat-grid-list>
+<h3>Products <em *ngIf="!!catName">of: {{catName}}</em></h3>
+<mat-progress-bar *ngIf="!!loading" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="products$ | async as products">
+    <h4 *ngIf="!products.pagination.total_count">No product to show.</h4>
+    <mat-grid-list *ngIf="!!products.pagination.total_count" cols="4" rowHeight="2:1" gutterSize="8px" >
+      <mat-grid-tile [routerLink]="['/product', product.id]" routerLinkActive="router-link-active"  *ngFor="let product of products.data" class="gridItem">
+        <mat-grid-tile-header title="{{ product.name }}">
+            <mat-icon [style.color]="product.color" class="circleColor">lens</mat-icon> <span>{{ product.name }}</span>
+        </mat-grid-tile-header>
+        <p ></p>
+        <mat-grid-tile-footer> 
+          <span class="description" title="{{ product.description }}">{{ product.description }}</span>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+      
+    </mat-grid-list>
+    
+</div>

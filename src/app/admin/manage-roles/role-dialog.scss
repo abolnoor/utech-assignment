@@ -1,0 +1,8 @@
+.role-dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.role-dialog-container > * {
+  width: 100%;
+}

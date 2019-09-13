@@ -1,0 +1,8 @@
+.user-dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-dialog-container > * {
+  width: 100%;
+}

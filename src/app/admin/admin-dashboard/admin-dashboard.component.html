@@ -1,0 +1,42 @@
+<h3>
+  Admin Dashboard
+</h3>
+
+<mat-card class="dashboard-card"  *ngIf="currentUser.currentUserValue && currentUser.currentUserValue.user as user">
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>{{ user.first_name + ' ' +  user.last_name}}</mat-card-title>
+      <mat-card-subtitle> {{user.email}} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+     
+      <mat-list style="display: flex">
+          <mat-list-item >
+            <h4 mat-line>Created At</h4>
+            <p mat-line> {{user.created_at | date}} </p>
+          </mat-list-item>
+          
+          <mat-list-item >
+              <h4 mat-line>Updated At</h4>
+              <p mat-line> {{user.updated_at | date}} </p>
+          </mat-list-item>
+          
+        </mat-list>
+
+        <mat-divider></mat-divider>
+
+        <h3 class="mat-h3 mat-subheading-2">Roles:</h3>
+        <mat-chip-list aria-label="roles" *ngIf="!!user.roles">
+            <mat-chip *ngFor="let role of user.roles" > {{ role.name }} </mat-chip>
+        </mat-chip-list>
+
+        <mat-divider></mat-divider>
+
+        <h3 class="mat-h3 mat-subheading-2">Permissions:</h3>
+        <mat-chip-list aria-label="permissions" *ngIf="!!currentUser.currentUserValue.permissions">
+            <mat-chip *ngFor="let permission of currentUser.currentUserValue.permissions" > {{ permission }} </mat-chip>
+        </mat-chip-list>
+
+    </mat-card-content>
+    
+  </mat-card>

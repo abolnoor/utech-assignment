@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ProductService } from '../product.service';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -12,52 +13,39 @@ import { Observable } from 'rxjs';
 })
 export class ProductListComponent implements OnInit {
   products$: Observable<object>;
+  catName: string;
+  loading = false;
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router,
+    public authService: AuthService,
     private productService: ProductService
   ) { }
 
   ngOnInit() {
-    let jwtToken = window.localStorage.getItem('jwtToken');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+    this.getProducts();
+  }
+
+  getProducts() {
+    this.loading = true;
+    this.products$ = this.route.queryParams.pipe(
+      switchMap(params => {
+        const p: any = { status: 'active' };
+        if (params.cat) {
+          setTimeout(() => {
+            this.catName = params.cat;
+          }, 300);
+          p.categories_name = params.cat;
+        } else {
+          this.catName = '';
+        }
+        const obs = this.productService.getProducts(p);
+        obs.subscribe(
+          () => { this.loading = false; },
+          () => { this.loading = false; }
+        )
+        return obs;
       })
-    };
-
-    if (!jwtToken) {
-      this.login('anonymous@utechmena.com', 'secret')
-        .subscribe(
-          data => {
-            console.log(data);
-            jwtToken = data.token;
-            window.localStorage.setItem('jwtToken', jwtToken);
-            this.getProducts(jwtToken);
-          },
-          error => {
-            console.error(error);
-          });
-    } else {
-      this.getProducts(jwtToken);
-    }
-
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<any>(`/api/auth`, { email, password });
-  }
-
-  getProducts(token: string) {
-      this.products$ = this.route.queryParams.pipe(
-        switchMap(params => {
-          let p = params.cat ? { categories_name: params.cat } : {};
-          return this.productService.getProducts(token, p);
-        })
-      );
-
-
+    );
   }
 
 }

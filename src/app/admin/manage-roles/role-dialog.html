@@ -1,0 +1,36 @@
+<h2 mat-dialog-title style="width: 800px"> {{dialogData.row ? dialogData.row.name : 'New User'}} </h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="roleForm">
+    <div class="role-dialog-container">
+
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Role's Unique Name" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Display Name</mat-label>
+        <input matInput placeholder="Role's Display Name" formControlName="display_name">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="dialogData.permissions | async as permissionList">
+        <mat-label>Permissions</mat-label>
+        <mat-select [formControlName]="'permissions'" multiple>
+          <mat-option *ngFor="let permission of permissionList.data" [value]="permission.id">{{permission.display_name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="roleForm" cdkFocusInitial [disabled]="!roleForm.valid">Save</button>
+</mat-dialog-actions>
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

@@ -19,34 +19,14 @@ export class ProductDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let jwtToken = window.localStorage.getItem('jwtToken');
-
-    if (!jwtToken) {
-      this.login('anonymous@utechmena.com', 'secret')
-        .subscribe(
-          data => {
-            console.log(data);
-            jwtToken = data.token;
-            window.localStorage.setItem('jwtToken', jwtToken);
-            this.getProduct(jwtToken);
-          },
-          error => {
-            console.error(error);
-          });
-    } else {
-      this.getProduct(jwtToken);
-    }
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<any>(`/api/auth`, { email, password });
+    this.getProduct();
   }
 
 
-  getProduct(token: string) {
+  getProduct() {
     this.product$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.productService.getProduct(token, params.get('id')))
+        this.productService.getProduct(params.get('id')))
     );
 
 

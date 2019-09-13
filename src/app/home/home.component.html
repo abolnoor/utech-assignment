@@ -1,1 +1,37 @@
 <h1> UTech Assignment Project </h1>
+
+<h2>setup:</h2>
+<ol>
+    <li> install nodejs and npm: <a href="https://nodejs.org">nodejs.org</a> </li>
+
+    <li> install Angular cli: <a href="https://cli.angular.io">cli.angular.io</a> <br> <em>npm install -g @angular/cli</em> </li>
+
+    <li> inside project directory run: <br> <em>npm install</em> </li>
+
+    <li> run: <br> <em>ng serve --proxy-config .\proxy.conf.json --open</em> <br> (proxy used for allow change origin "CORS" and rewrite /api url) </li>
+</ol>
+
+
+<h2>authentication:</h2>
+<ul>
+    <li> current user info is saved in the browser's coockies: localStorage </li>
+    <li> Token is sent with Authorization header in every request using: HttpInterceptor </li>
+    <li> (auth/jwt.service.ts) </li>
+</ul>
+
+
+<h2>authorization:</h2>
+<ul>
+    <li> every rout has "allowed roles" identified array, and the user allowed to access is checked by every route
+        changing </li>
+    <li> (admin/admin-routing.module.ts) </li>
+    <li> (auth/auth.service.ts) </li>
+</ul>
+
+
+<h2>front end framework:</h2>
+<ul>
+    <li>angular 8</li>
+    <li>angular material is used</li>
+    <li>css: scss</li>
+</ul>

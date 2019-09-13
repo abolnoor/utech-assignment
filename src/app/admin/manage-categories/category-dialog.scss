@@ -1,0 +1,8 @@
+.category-dialog-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-dialog-container > * {
+    width: 100%;
+  }

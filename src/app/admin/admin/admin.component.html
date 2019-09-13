@@ -1,0 +1,26 @@
+
+<mat-toolbar>
+    <mat-toolbar-row>
+        <mat-icon aria-label="heart icon">settings_applications</mat-icon>
+              <span>                
+                ADMIN
+              </span>
+        
+              <span class="spacer"></span>
+            <nav>
+                <a mat-button href="#"  routerLink="./" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+                <a mat-button href="#" routerLink="./products">Products</a>
+                <a mat-button href="#" routerLink="./categories">Categories</a>
+
+                <a mat-button href="#" routerLink="./users">Users</a>
+                <a mat-button href="#" routerLink="./roles">Roles</a>
+               
+        
+                     
+            </nav>
+           
+          </mat-toolbar-row>
+        </mat-toolbar>
+
+<router-outlet></router-outlet>

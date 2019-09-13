@@ -1,0 +1,28 @@
+<h2 mat-dialog-title style="width: 800px"> {{dialogData.row ? dialogData.row.name : 'New Category'}} </h2>
+<mat-dialog-content class="mat-typography">
+  <form  [formGroup]="categoryForm">
+    <div class="category-dialog-container">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput  placeholder="Category's Name" formControlName="name">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput  placeholder="Category's Description" formControlName="description">
+      </mat-form-field>
+
+    </div>
+   
+  
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="categoryForm" cdkFocusInitial [disabled]="!categoryForm.valid" >Save</button>
+</mat-dialog-actions>
+
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

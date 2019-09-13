@@ -1,0 +1,8 @@
+.product-dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-dialog-container > * {
+  width: 100%;
+}

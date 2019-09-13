@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public authService: AuthService, ) { }
 
-  getProducts(token: string, params: object): Observable<object> {
+  getProducts(params: object): Observable<object> {
     let httpParams;
     if (params) {
       httpParams = new HttpParams();
@@ -18,34 +19,26 @@ export class ProductService {
       });
     }
     const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token
-      }),
       params: httpParams ? httpParams : {}
     };
-
-    console.log(params, options);
     return this.http.get(`/api/products`, options);
+
   }
 
-  getProduct(token: string, id: number | string) {
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token
-      })
-    };
-
-    return this.http.get(`/api/products/${id}`, options);
+  getProduct(id: number | string) {
+    return this.http.get(`/api/products/${id}`);
   }
 
-  getCategories(token: string, params: object): Observable<object> {
+  getCategories(params?: object): Observable<object> {
+    let httpParams;
+    if (params) {
+      httpParams = new HttpParams();
+      Object.keys(params).forEach((key) => {
+        httpParams = httpParams.append(key, params[key]);
+      });
+    }
     const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token
-      })
+      params: httpParams ? httpParams : {}
     };
     return this.http.get(`/api/categories`, options);
   }
