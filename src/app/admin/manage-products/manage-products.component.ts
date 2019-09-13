@@ -126,7 +126,7 @@ export class ManageProductsComponent implements AfterViewInit {
     this.searchChange.next(this.search);
   }
 
-  openProductDialog(row) {
+  openProductDialog(row?) {
     const dialogRef = this.dialog.open(ProductDialogComponent,
       { data: { row, cats: this.categoryList$ } }
     );

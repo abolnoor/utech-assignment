@@ -109,7 +109,7 @@ export class ManageRolesComponent implements AfterViewInit {
     this.searchChange.next(this.search);
   }
 
-  openRoleDialog(row) {
+  openRoleDialog(row?) {
     const dialogRef = this.dialog.open(RoleDialogComponent,
       { data: { row, permissions: this.permissionList$ } }
     );

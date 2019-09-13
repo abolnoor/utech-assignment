@@ -111,7 +111,7 @@ export class ManageUsersComponent implements AfterViewInit {
     this.searchChange.next(this.search);
   }
 
-  openUserDialog(row) {
+  openUserDialog(row?) {
     const dialogRef = this.dialog.open(UserDialogComponent,
       { data: { row, roles: this.roleList$ } }
     );

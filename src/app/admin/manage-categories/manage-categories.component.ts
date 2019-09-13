@@ -117,7 +117,7 @@ export class ManageCategoriesComponent implements AfterViewInit {
     this.searchChange.next(this.search);
   }
 
-  openCategoryDialog(row) {
+  openCategoryDialog(row?) {
     const dialogRef = this.dialog.open(CategoryDialogComponent,
       { data: { row } }
     );
