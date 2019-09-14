@@ -1,4 +1,5 @@
 <h1> UTech Assignment Project </h1>
+demo: https://abolnoor.github.io/utech-assignment
 
 # setup:
 0- install nodejs and npm _ https://nodejs.org/
@@ -10,8 +11,9 @@ npm install -g @angular/cli
 npm install
 
 3- run:
-ng serve --proxy-config .\proxy.conf.json --open
-(proxy used for allow change origin "CORS" and rewrite /api url)
+ng serve --open
+old: ng serve --proxy-config .\proxy.conf.json --open (proxy used for allow change origin "CORS" and rewrite /api url)
+
 # authentication:
 - current user info is saved in the browser's coockies: localStorage
 - Token is sent with Authorization header in every request using: HttpInterceptor
