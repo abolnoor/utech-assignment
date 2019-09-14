@@ -16,7 +16,7 @@ export class JwtService implements HttpInterceptor {
 
     const currentUser = this.authService.currentUserValue;
     const isLoggedIn = currentUser && currentUser.token;
-    const isApiUrl = req.url.includes(`/api`) && !req.url.includes(`/api/auth`);
+    const isApiUrl = req.url.includes(`/api`);
     if (isLoggedIn && isApiUrl) {
       this.tokenSubject.next(currentUser.token);
 
@@ -28,19 +28,25 @@ export class JwtService implements HttpInterceptor {
           }));
     } else if (isApiUrl) {
 
-      this.tokenSubject.next(null);
+      if (req.url.includes(`/api/auth`)) {
+        const url = `https://cors-anywhere.herokuapp.com/http://134.209.170.16` + req.url.substring(req.url.indexOf(`/api/`) + 4);
+        return next.handle(req.clone({
+          url
+        }));
+      } else {
+        this.tokenSubject.next(null);
+        return this.authService.getGuest()
+          .pipe(
+            switchMap((user: UserAuth) => {
+              if (user) {
+                this.tokenSubject.next(user.token);
+                return next.handle(this.addTokenToRequest(req, user.token));
+              }
 
-      return this.authService.getGuest()
-        .pipe(
-          switchMap((user: UserAuth) => {
-            if (user) {
-              this.tokenSubject.next(user.token);
-              return next.handle(this.addTokenToRequest(req, user.token));
-            }
-
-            return this.authService.logout() as Observable<HttpEvent<any>> ;
-          })
-        );
+              return this.authService.logout() as Observable<HttpEvent<any>>;
+            })
+          );
+      }
 
     }
 
@@ -50,7 +56,12 @@ export class JwtService implements HttpInterceptor {
   }
 
   private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
+
+    // const url = `http://134.209.170.16` + request.url.replace('/api', '');
+    const url = `https://cors-anywhere.herokuapp.com/http://134.209.170.16` + request.url.substring(request.url.indexOf(`/api/`) + 4);
+    console.log(request, url);
     return request.clone({
+      url,
       setHeaders: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
