@@ -1,5 +1,5 @@
-<h1> UTech Assignment Project </h1>
-demo: https://abolnoor.github.io/utech-assignment
+<h1> UTech Products Project </h1>
+demo: https://abolnoor.github.io/utech-products
 
 # setup:
 0- install nodejs and npm _ https://nodejs.org/
